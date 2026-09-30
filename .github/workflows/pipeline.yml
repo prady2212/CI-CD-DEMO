@@ -1,0 +1,29 @@
+name: CI/CD[cite: 2]
+
+on: push[cite: 2]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest[cite: 2]
+    steps:
+      - uses: actions/checkout@v4[cite: 2]
+      - uses: actions/setup-python@v5[cite: 2]
+        with:
+          python-version: "3.12"[cite: 2]
+      - run: pip install pytest[cite: 2]
+      - run: pytest[cite: 2]
+
+  deploy:
+    needs: test[cite: 2]
+    runs-on: ubuntu-latest[cite: 2]
+    permissions:
+      pages: write[cite: 2]
+      id-token: write[cite: 2]
+    environment: github-pages[cite: 2]
+    steps:
+      - uses: actions/checkout@v4[cite: 2]
+      - run: python3 app.py[cite: 2]
+      - uses: actions/upload-pages-artifact@v3[cite: 2]
+        with:
+          path: site[cite: 2]
+      - uses: actions/deploy-pages@v4[cite: 2]
